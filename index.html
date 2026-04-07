@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Design Web - CKRF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #f97316;
+    --gold-light: #fb923c;
+    --bg: #060c18;
+    --bg2: #0d1525;
+    --bg3: #162035;
+    --text: #e8edf5;
+    --muted: #5a7099;
+    --blue: #0ea5e9;
+    --border: rgba(0,170,255,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .2s, height .2s, background .2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(249,115,22,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all .12s ease;
+  }
+  body:has(a:hover) .cursor { width: 24px; height: 24px; }
+  body:has(a:hover) .cursor-ring { width: 56px; height: 56px; border-color: var(--gold); }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(11,11,11,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 60% 50% at 80% 30%, rgba(14,165,233,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 70%, rgba(249,115,22,0.05) 0%, transparent 70%);
+  }
+  .hero-bg-line {
+    position: absolute;
+    top: 0; right: 12%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--border), transparent);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    border: 1px solid rgba(14,165,233,0.3);
+    padding: .35rem 1rem;
+    border-radius: 100px;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .hero-desc {
+    max-width: 400px;
+    font-size: .85rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    color: var(--muted);
+    font-size: .65rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollLine 2s infinite;
+  }
+  @keyframes scrollLine {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); }
+    100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  .section-label {
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .work-section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+  .work-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+  .work-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+  }
+  .work-count {
+    font-size: .7rem;
+    color: var(--muted);
+    letter-spacing: .1em;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    position: relative;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color .4s, transform .4s;
+    text-decoration: none;
+    display: block;
+  }
+  .project-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 0 30px rgba(14,165,233,0.08);
+  }
+  .project-card.wide { grid-column: span 7; }
+  .project-card.narrow { grid-column: span 5; }
+  .project-card.full { grid-column: span 6; }
+  .project-card.thirds { grid-column: span 4; }
+
+  .browser-bar {
+    background: var(--bg3);
+    padding: .5rem .75rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+  .browser-dots { display: flex; gap: 5px; }
+  .browser-dots span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+  .browser-url {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    padding: .18rem .6rem;
+    font-size: .62rem;
+    color: var(--muted);
+    font-family: monospace;
+    margin-left: .25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .screenshot-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 240px;
+  }
+  .project-card.wide .screenshot-wrap { height: 280px; }
+  .project-card.full .screenshot-wrap { height: 260px; }
+
+  .screenshot-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: transform .6s ease, filter .4s;
+    filter: brightness(0.88) saturate(0.9);
+  }
+  .project-card:hover .screenshot-wrap img {
+    transform: scale(1.04);
+    filter: brightness(1) saturate(1);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11,11,11,0.92) 0%, rgba(11,11,11,0.2) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity .4s;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+  }
+  .project-card:hover .card-overlay { opacity: 1; }
+  .overlay-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    border: 1px solid var(--blue);
+    padding: .4rem 1rem;
+    border-radius: 100px;
+    font-size: .7rem;
+    color: var(--blue);
+    letter-spacing: .1em;
+  }
+  .overlay-cta svg { width: 12px; height: 12px; }
+
+  .card-info {
+    padding: 1rem 1.1rem 1.1rem;
+  }
+  .card-number {
+    font-size: .6rem;
+    color: var(--gold);
+    letter-spacing: .15em;
+    margin-bottom: .35rem;
+  }
+  .card-title {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: .2rem;
+    line-height: 1.2;
+  }
+  .card-desc {
+    font-size: .72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .about-section {
+    padding: 5rem 3rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .about-title em { font-style: italic; color: var(--gold); }
+  .about-text {
+    font-size: .85rem;
+    line-height: 1.9;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .about-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    color: var(--gold);
+    font-size: .75rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,151,63,0.3);
+    padding-bottom: .25rem;
+    transition: gap .3s, border-color .3s;
+  }
+  .about-cta:hover { gap: 1.25rem; border-color: var(--gold); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .skill-item {
+    border: 1px solid var(--border);
+    padding: 1.1rem;
+    border-radius: 4px;
+    transition: border-color .3s;
+  }
+  .skill-item:hover { border-color: var(--gold); }
+  .skill-icon {
+    font-size: 1.2rem;
+    margin-bottom: .5rem;
+  }
+  .skill-name {
+    font-size: .75rem;
+    font-weight: 700;
+    margin-bottom: .2rem;
+  }
+  .skill-desc {
+    font-size: .68rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy {
+    font-size: .7rem;
+    color: var(--muted);
+    letter-spacing: .1em;
+  }
+  .footer-email {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color .3s;
+  }
+  .footer-email:hover { color: var(--gold); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .screenshot-wrap img.loading {
+    opacity: 0;
+    transition: opacity .5s;
+  }
+  .screenshot-wrap img.loaded { opacity: 1; }
+  .screenshot-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bg2) 25%, var(--bg3) 50%, var(--bg2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    z-index: 1;
+    transition: opacity .3s;
+  }
+  .screenshot-wrap.loaded::before { opacity: 0; pointer-events: none; }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .work-section, .about-section { padding: 4rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .project-card.wide, .project-card.narrow, .project-card.full, .project-card.thirds {
+      grid-column: span 12;
+    }
+    .about-section { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo">CKRF<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Portafolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:christian_krf@hotmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-line"></div>
+  <div class="hero-badge">WeB Designer · UX/UI</div>
+  <h1 class="hero-title">
+    Digital<br><em>design</em><br>with porpopuse
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc">
+      I turn ideas into memorable digital experiences. Every project combines aesthetics, functionality, and user-centered strategy.
+    </p>
+    <div class="hero-scroll">Scroll</div>
+  </div>
+</section>
+
+<section class="work-section" id="work">
+  <div class="work-header reveal">
+    <div>
+      <p class="section-label">Some Proyects</p>
+      <h2 class="work-title">Portafolio</h2>
+    </div>
+  </div>
+
+  <div class="projects-grid">
+
+    <a class="project-card wide reveal" href="https://akashayoga.mx" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">akashayoga.mx</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/akashayoga.png" alt="Akasha Yoga" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Akasha Yoga</p>
+        <p class="card-desc">Booking experience redesign</p>
+      </div>
+    </a>
+
+    <a class="project-card narrow reveal" href="https://mayanwatercomplex.com" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">mayanwatercomplex.com</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/mayanwatercomplex.png" alt="Mayan Water Complex" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Mayan Water Complex</p>
+        <p class="card-desc">Ticketing platform with improved usability</p>
+      </div>
+    </a>
+
+    <a class="project-card full reveal" href="https://grupocancun.net" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">grupocancun.net</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/grupocancun.png" alt="Grupo Cancún" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Grupo Cancún</p>
+        <p class="card-desc">Sitio web corporativo · presencia digital</p>
+      </div>
+    </a>
+
+    <a class="project-card full reveal" href="https://tecki.mx" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">tecki.mx</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/tecki.png" alt="Tecki" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Tecki</p>
+        <p class="card-desc">Custom product configurator with user-focused flow</p>
+      </div>
+    </a>
+
+    <a class="project-card thirds reveal" href="https://femde.mx/nacionales2022" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">femde.mx/nacionales2022</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/jen22.png" alt="JEN 2022" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Juegos Empresariales Nacionales 2022</p>
+        <p class="card-desc">FEMDE · Sitio oficial de evento</p>
+      </div>
+    </a>
+
+    <a class="project-card thirds reveal" href="https://femde.mx/copas2022" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">femde.mx/copas2022</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/copas.png" alt="Copas Invierno 2022" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Copas de Invierno 2022</p>
+        <p class="card-desc">FEMDE · Sitio oficial de evento</p>
+      </div>
+    </a>
+
+    <a class="project-card thirds reveal" href="https://femde.mx/nacionales2023" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">femde.mx/nacionales2023</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/jen23.png" alt="JEN 2023" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Juegos Empresariales Nacionales 2023</p>
+        <p class="card-desc">FEMDE · Sitio oficial de evento</p>
+      </div>
+    </a>
+
+    <a class="project-card wide reveal" href="https://femde.mx/mundial2023" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">femde.mx/mundial2023</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/wcsg.png" alt="Mundial 2023" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Juegos Mundiales Empresariales 2023</p>
+        <p class="card-desc">FEMDE · Sitio oficial · evento internacional</p>
+      </div>
+    </a>
+
+    <a class="project-card narrow reveal" href="https://femde.mx/nacionales2024" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">femde.mx/nacionales2024</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/jen24.png" alt="JEN 2024" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Juegos Empresariales Nacionales 2024</p>
+        <p class="card-desc">FEMDE · Sitio oficial de evento</p>
+      </div>
+    </a>
+
+    <!-- SITIO OFFLINE <a class="project-card full reveal" href="https://podologycenter.com.mx" target="_blank" rel="noopener">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">podologycenter.com.mx</div>
+      </div>
+      <div class="screenshot-wrap">
+        <img src="images/podologycenter.png" alt="Podology Center" class="loading" loading="lazy">
+        <div class="card-overlay">
+          <span class="overlay-cta">
+            View Site
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="card-info">
+        <p class="card-title">Podology Center</p>
+        <p class="card-desc">Informational website · online presence · UX para pacientes</p>
+      </div>
+    </a> -->
+
+
+
+  </div>
+</section>
+
+<section class="about-section" id="about">
+  <div class="reveal">
+    <p class="section-label">About Me</p>
+    <h2 class="about-title">Design that <em>connects</em> brands with people</h2>   
+    <p class="about-text">
+      Specializing in UX/UI web design, I create digital experiences that blend aesthetics and functionality. Every project is an opportunity to solve real-world problems with creative, well-executed solutions.
+    </p>
+    <p class="about-text">
+      From booking platforms to custom product configurators, my approach always starts with the user and ends with measurable results.
+    </p>
+    <a href="mailto:christian_krf@hotmail.com" class="about-cta">
+      Let's talk about your project →
+    </a>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-item">
+      <div class="skill-icon">◈</div>
+      <p class="skill-name">UX Design</p>
+      <p class="skill-desc">User-centered research, wireframes, and workflows</p>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">◉</div>
+      <p class="skill-name">UI Design</p>
+      <p class="skill-desc">Visual interfaces with consistent design systems</p>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">◫</div>
+      <p class="skill-name">Web Dev</p>
+      <p class="skill-desc">Front-end development using modern technologies</p>
+    </div>
+    <div class="skill-item">
+      <div class="skill-icon">◌</div>
+      <p class="skill-name">Branding</p>
+      <p class="skill-desc">Visual identity and strategic digital presence</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-copy">© 2026 CKRF — Web Design · México</p>
+  <a href="mailto:christian_krf@hotmail.com" class="footer-email">christian_krf@hotmail.com</a>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger cards in grid
+  document.querySelectorAll('.projects-grid .project-card').forEach((card, i) => {
+    card.style.transitionDelay = (i * 0.06) + 's';
+  });
+
+  // Image loading states
+  document.querySelectorAll('.screenshot-wrap img').forEach(img => {
+    const wrap = img.parentElement;
+    if (img.complete) {
+      wrap.classList.add('loaded');
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', () => {
+        wrap.classList.add('loaded');
+        img.classList.add('loaded');
+      });
+      img.addEventListener('error', () => {
+        wrap.classList.add('loaded');
+        img.style.background = 'var(--bg3)';
+      });
+    }
+  });
+</script>
+</body>
+</html>
