@@ -247,27 +247,39 @@
   .project-card.thirds { grid-column: span 4; }
 
   .browser-bar {
-    background: var(--bg3);
+    background: #E8E9EA;
     padding: .5rem .75rem;
     display: flex;
     align-items: center;
     gap: .5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(204,205,206);
     flex-shrink: 0;
+  }
+  .browser-dots-close { display: flex; gap: 5px; }
+  .browser-dots-close span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ED6A5E;
   }
   .browser-dots { display: flex; gap: 5px; }
   .browser-dots span {
     width: 8px; height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.12);
+    background: #F5BF4F;
+  }
+  .browser-dots-open{ display: flex; gap: 5px; }
+  .browser-dots-open span {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #63C856;
   }
   .browser-url {
     flex: 1;
-    background: rgba(255,255,255,0.05);
+    background: rgba(198,200,203);
     border-radius: 3px;
     padding: .18rem .6rem;
     font-size: .62rem;
-    color: var(--muted);
+    color: #4C4C4C;
     font-family: monospace;
     margin-left: .25rem;
     white-space: nowrap;
@@ -513,7 +525,9 @@
 
     <a class="project-card full reveal" href="https://akashayoga.mx" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>
         <div class="browser-url">akashayoga.mx</div>
       </div>
       <div class="screenshot-wrap">
@@ -533,7 +547,9 @@
 
     <a class="project-card full reveal" href="https://mayanwatercomplex.com" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>
         <div class="browser-url">mayanwatercomplex.com</div>
       </div>
       <div class="screenshot-wrap">
@@ -553,7 +569,9 @@
 
     <a class="project-card thirds reveal" href="https://grupocancun.net" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">grupocancun.net</div>
       </div>
       <div class="screenshot-wrap">
@@ -573,7 +591,9 @@
 
     <a class="project-card thirds reveal" href="https://tecki.mx" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">tecki.mx</div>
       </div>
       <div class="screenshot-wrap">
@@ -593,7 +613,9 @@
 
     <a class="project-card thirds reveal" href="https://smart.tecki.mx/smarthome/" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">smart.tecki.mx/smarthome</div>
       </div>
       <div class="screenshot-wrap">
@@ -613,7 +635,9 @@
 
     <a class="project-card full reveal" href="https://tecki.mx/hosting/" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">tecki.mx/hosting</div>
       </div>
       <div class="screenshot-wrap">
@@ -635,7 +659,9 @@
 
     <a class="project-card full reveal" href="https://femde.mx" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">femde.mx</div>
       </div>
       <div class="screenshot-wrap">
@@ -655,7 +681,9 @@
 
     <a class="project-card thirds reveal" href="https://femde.mx/nacionales2022" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">femde.mx/nacionales2022</div>
       </div>
       <div class="screenshot-wrap">
@@ -675,7 +703,9 @@
 
     <a class="project-card thirds reveal" href="https://femde.mx/copas2022" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">femde.mx/copas2022</div>
       </div>
       <div class="screenshot-wrap">
@@ -695,7 +725,9 @@
 
     <a class="project-card thirds reveal" href="https://femde.mx/nacionales2023" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>
         <div class="browser-url">femde.mx/nacionales2023</div>
       </div>
       <div class="screenshot-wrap">
@@ -715,7 +747,9 @@
 
     <a class="project-card full reveal" href="https://femde.mx/mundial2023" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>
         <div class="browser-url">femde.mx/mundial2023</div>
       </div>
       <div class="screenshot-wrap">
@@ -735,7 +769,9 @@
 
     <a class="project-card full reveal" href="https://femde.mx/nacionales2024" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>
         <div class="browser-url">femde.mx/nacionales2024</div>
       </div>
       <div class="screenshot-wrap">
@@ -755,7 +791,9 @@
 
     <a class="project-card thirds reveal" href="https://drtenpenny.com" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">drtenpenny.com</div>
       </div>
       <div class="screenshot-wrap">
@@ -775,7 +813,9 @@
 
     <a class="project-card thirds reveal" href="https://icemak.com.mx" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">icemak.com.mx</div>
       </div>
       <div class="screenshot-wrap">
@@ -795,7 +835,9 @@
 
     <a class="project-card thirds reveal" href="https://podologycenter.com.mx" target="_blank" rel="noopener">
       <div class="browser-bar">
-        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-dots-close"><span></span></div>
+        <div class="browser-dots"><span></span></div>
+        <div class="browser-dots-open"><span></span></div>        
         <div class="browser-url">podologycenter.com.mx</div>
       </div>
       <div class="screenshot-wrap">
